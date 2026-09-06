@@ -2,7 +2,7 @@
 
 Detect and decode QR codes on every page of a PDF.
 
-Each page is rasterised with [PDFium], the page image is scanned with
+Each page is rasterized with [PDFium], the page image is scanned with
 [`rqrr`], and the decoded payloads are printed (or emitted as JSON), grouped
 by page.
 
@@ -41,11 +41,14 @@ Exit codes: `0` at least one QR code found, `2` none found, `1` error.
 ```rust
 use qr_reader::{read_qr_from_pdf, Options};
 
-let pages = read_qr_from_pdf("document.pdf", &Options::default())?;
-for page in pages {
-    for code in page.codes {
-        println!("page {}: {}", code.page, code.data);
+fn main() -> anyhow::Result<()> {
+    let pages = read_qr_from_pdf("document.pdf", &Options::default())?;
+    for page in pages {
+        for code in page.codes {
+            println!("page {}: {}", code.page, code.data);
+        }
     }
+    Ok(())
 }
 ```
 
