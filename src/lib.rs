@@ -97,7 +97,8 @@ fn render_and_scan(page: &PdfPage, dpi: f32, page_number: usize) -> Result<Vec<Q
     let image = page
         .render_with_config(&config)
         .context("PDFium failed to render page")?
-        .as_image();
+        .as_image()
+        .context("failed to convert rendered page to an image")?;
 
     Ok(scan_image(&image, page_number))
 }
