@@ -1,6 +1,6 @@
 //! Read QR codes out of every page of a PDF document.
 //!
-//! The PDF is rasterised page-by-page with PDFium, each page image is handed to
+//! The PDF is rasterized page-by-page with PDFium, each page image is handed to
 //! `rqrr` for QR detection/decoding, and the decoded payloads are returned
 //! grouped by page.
 
@@ -97,7 +97,8 @@ fn render_and_scan(page: &PdfPage, dpi: f32, page_number: usize) -> Result<Vec<Q
     let image = page
         .render_with_config(&config)
         .context("PDFium failed to render page")?
-        .as_image();
+        .as_image()
+        .context("failed to convert rendered page to an image")?;
 
     Ok(scan_image(&image, page_number))
 }
